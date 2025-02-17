@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mansi Photo & Video - Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef; /* Light gray background */
+        }
+        .header {
+            background-color: #343a40; /* Dark gray */
+            color: white;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .header h1:hover {
+            color: #28a745; /* Green */
+            transform: scale(1.05);
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: 1.2em;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff; /* White background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px; /* Rounded corners */
+            transition: transform 0.3s;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px; /* Increased padding */
+            margin: 5px 0;
+            border: 1px solid #ced4da; /* Light gray border */
+            border-radius: 5px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus, textarea:focus {
+            border-color: #28a745; /* Green */
+            outline: none;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column; /* Stack them vertically */
+            align-items: flex-start; /* Align items to the left */
+        }
+        .radio-group label {
+            display: flex; /* Use flexbox for alignment */
+            align-items: left; /* Center the items vertically */
+            margin: 5px 0;
+            margin-left: 0; /* Reset left margin */
+        }
+        .radio-group input[type="radio"] {
+            margin-right: 10px; /* Space between radio button and label text */
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .event-group {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            padding: 10px 15px; /* Increased padding */
+            border: none;
+            background-color: #007bff; /* Blue */
+            color: white;
+            cursor: pointer;
+            border-radius: 25px; /* Rounded button */
+            transition: background-color 0.3s, transform 0.3s;
+            font-weight: bold; /* Bold text */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker blue */
+            transform: scale(1.05);
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        button[type="reset"] {
+            background-color: #dc3545; /* Red */
+        }
+        button[type="reset"]:hover {
+            background-color: #c82333; /* Darker red */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mansi Photo & Video</h1>
+        <p>Contact: +91 99793 61589</p>
+    </div>
+    <div class="container">
+        <form id="registrationForm">
+            <label>પ્રસંગ:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="eventType" value="Marriage" > લગ્ન</label>
+                <label><input type="radio" name="eventType" value="Engagement"> સગાઈ</label>
+                <label><input type="radio" name="eventType" value="Other" id="otherEvent"> અન્ય</label>
+                <input type="text" id="otherEventText" placeholder="પ્રસંગનું નામ" style="display:none;">
+            </div>
+            
+            <label>પ્રસંગની તારીખ:</label>
+            <input type="date" id="eventDates" multiple>
+            
+            <label>વરનું નામ:</label>
+            <input type="text" id="groomName" >
+            
+            <label>કન્યાનું નામ:</label>
+            <input type="text" id="brideName" >
+            
+            <label>વરરાજાના પિતાનું નામ:</label>
+            <input type="text" id="groomFatherName" >
+            
+            <label>વરરાજાની માતાનું નામ:</label>
+            <input type="text" id="groomMotherName" >
+            
+            <label>કન્યાના પિતાનું નામ:</label>
+            <input type="text" id="brideFatherName" >
+            
+            <label>કન્યાની માતાનું નામ:</label>
+            <input type="text" id="brideMotherName" >
+            
+            <label>પ્રસંગો:</label>
+            <div id="eventFields">
+                <div class="event-group">
+                    <input type="text" placeholder="પ્રસંગનું નામ" >
+                    <input type="date">
+                    <input type="time">
+                </div>
+            </div>
+            <button type="button" onclick="addEventField()">Add Event</button>
+            <br><br>
+            <label>શુભ સ્થળ:</label>
+            <textarea rows="3" id="venue" ></textarea>
+            
+            <label>નિમંત્રકનું નામ:</label>
+            <input type="text" id="invitorName" >
+            
+            <label>નિમંત્રકનું સરનામું:</label>
+            <textarea rows="3" id="invitorAddress" ></textarea>
+            
+            <label>સુચના:</label>
+            <textarea rows="3" id="notes"></textarea>
+            
+            <div class="buttons">
+                <button type="submit">Submit</button>
+                <button type="reset">Clear</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector('#otherEvent').addEventListener('change', function() {
+            document.querySelector('#otherEventText').style.display = this.checked ? 'block' : 'none';
+        });
+
+        function addEventField() {
+            let eventContainer = document.getElementById("eventFields");
+            let newEvent = document.createElement("div");
+            newEvent.classList.add("event-group");
+            newEvent.innerHTML = `<input type="text" placeholder="પ્રસંગ" required> <input type="date"> <input type="time">`;
+            eventContainer.appendChild(newEvent);
+        }
+
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Collect form data
+            const eventType = document.querySelector('input[name="eventType"]:checked').value;
+            const otherEventText = document.getElementById('otherEventText').value;
+            const eventDates = document.getElementById('eventDates').value;
+            const groomName = document.getElementById('groomName').value;
+            const brideName = document.getElementById('brideName').value;
+            const groomFatherName = document.getElementById('groomFatherName').value;
+            const groomMotherName = document.getElementById('groomMotherName').value;
+            const brideFatherName = document.getElementById('brideFatherName').value;
+            const brideMotherName = document.getElementById('brideMotherName').value;
+            const venue = document.getElementById('venue').value;
+            const invitorName = document.getElementById('invitorName').value;
+            const invitorAddress = document.getElementById('invitorAddress').value;
+            const notes = document.getElementById('notes').value;
+
+            // Collect event details
+            const eventFields = document.querySelectorAll('.event-group');
+            let eventsMessage = '';
+            eventFields.forEach((eventField, index) => {
+                const eventName = eventField.querySelector('input[type="text"]').value;
+                const eventDate = eventField.querySelector('input[type="date"]').value;
+                const eventTime = eventField.querySelector('input[type="time"]').value;
+                eventsMessage += `*પ્રસંગ ${index + 1}:* ${eventName} on ${eventDate} at ${eventTime}\n`;
+            });
+
+            // Create WhatsApp message
+            let message = `*પ્રસંગ:* ${eventType}${eventType === 'Other' ? ` - ${otherEventText}` : ''}\n` +
+                          `*પ્રસંગની તારીખ:* ${eventDates}\n` +
+                          `*વરનું નામ:* ${groomName}\n` +
+                          `*કન્યાનું નામ:* ${brideName}\n` +
+                          `*વરરાજાના પિતાનું નામ:* ${groomFatherName}\n` +
+                          `*વરરાજાની માતાનું નામ:* ${groomMotherName}\n` +
+                          `*કન્યાના પિતાનું નામ:* ${brideFatherName}\n` +
+                          `*કન્યાની માતાનું નામ:* ${brideMotherName}\n` +
+                          `*શુભ સ્થળ:* ${venue}\n` +
+                          `*નિમંત્રકનું નામ:* ${invitorName}\n` +
+                          `*નિમંત્રકનું સરનામું:* ${invitorAddress}\n` +
+                          `*સુચના:* ${notes}\n` +
+                          `*પ્રસંગો:* \n${eventsMessage}`;
+
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappNumber = '9023609661';
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
