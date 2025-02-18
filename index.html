@@ -106,6 +106,7 @@
         button[type="reset"]:hover {
             background-color: #c82333; /* Darker red */
         }
+        
     </style>
 </head>
 <body>
@@ -167,76 +168,114 @@
             <textarea rows="3" id="notes"></textarea>
             
             <div class="buttons">
-                <button type="submit">Submit</button>
+                <button type="submit" >Submit</button>
+                <button type="button" onclick="downloadImage()">Download Invitation</button>
                 <button type="reset">Clear</button>
             </div>
         </form>
+        <canvas id="eventCanvas"></canvas>
+   
     </div>
 
     <script>
         document.querySelector('#otherEvent').addEventListener('change', function() {
-            document.querySelector('#otherEventText').style.display = this.checked ? 'block' : 'none';
-        });
+    document.querySelector('#otherEventText').style.display = this.checked ? 'block' : 'none';
+});
 
-        function addEventField() {
-            let eventContainer = document.getElementById("eventFields");
-            let newEvent = document.createElement("div");
-            newEvent.classList.add("event-group");
-            newEvent.innerHTML = `<input type="text" placeholder="પ્રસંગ" required> <input type="date"> <input type="time">`;
-            eventContainer.appendChild(newEvent);
-        }
+function addEventField() {
+    let eventContainer = document.getElementById("eventFields");
+    let newEvent = document.createElement("div");
+    newEvent.classList.add("event-group");
+    newEvent.innerHTML = `<input type="text" placeholder="પ્રસંગનું નામ" required> <input type="date"> <input type="time">`;
+    eventContainer.appendChild(newEvent);
+}
 
-        document.getElementById('registrationForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    generateImage();
+});
 
-            // Collect form data
-            const eventType = document.querySelector('input[name="eventType"]:checked').value;
-            const otherEventText = document.getElementById('otherEventText').value;
-            const eventDates = document.getElementById('eventDates').value;
-            const groomName = document.getElementById('groomName').value;
-            const brideName = document.getElementById('brideName').value;
-            const groomFatherName = document.getElementById('groomFatherName').value;
-            const groomMotherName = document.getElementById('groomMotherName').value;
-            const brideFatherName = document.getElementById('brideFatherName').value;
-            const brideMotherName = document.getElementById('brideMotherName').value;
-            const venue = document.getElementById('venue').value;
-            const invitorName = document.getElementById('invitorName').value;
-            const invitorAddress = document.getElementById('invitorAddress').value;
-            const notes = document.getElementById('notes').value;
+function generateImage() {
+    let eventType = document.querySelector('input[name="eventType"]:checked')?.value || '';
+    if (eventType === "Other") {
+        eventType = document.getElementById("otherEventText").value;
+    }
+    
+    let eventDate = document.getElementById('eventDates').value;
+    let groomName = document.getElementById('groomName').value;
+    let brideName = document.getElementById('brideName').value;
+    let groomFatherName = document.getElementById('groomFatherName').value;
+    let groomMotherName = document.getElementById('groomMotherName').value;
+    let brideFatherName = document.getElementById('brideFatherName').value;
+    let brideMotherName = document.getElementById('brideMotherName').value;
+    let venue = document.getElementById('venue').value;
+    let invitorName = document.getElementById('invitorName').value;
+    let invitorAddress = document.getElementById('invitorAddress').value;
+    let specialNote = document.getElementById('notes').value;
+    
+    // Get all event fields (including dynamically added ones)
+    let eventFields = document.getElementById('eventFields').children;
+    let startY = 520; // Starting Y position for event fields
 
-            // Collect event details
-            const eventFields = document.querySelectorAll('.event-group');
-            let eventsMessage = '';
-            eventFields.forEach((eventField, index) => {
-                const eventName = eventField.querySelector('input[type="text"]').value;
-                const eventDate = eventField.querySelector('input[type="date"]').value;
-                const eventTime = eventField.querySelector('input[type="time"]').value;
-                eventsMessage += `*પ્રસંગ ${index + 1}:* ${eventName} on ${eventDate} at ${eventTime}\n`;
-            });
+    let canvas = document.createElement("canvas");
+    canvas.width = 600;
+    canvas.height = 840;
 
-            // Create WhatsApp message
-            let message = `*પ્રસંગ:* ${eventType}${eventType === 'Other' ? ` - ${otherEventText}` : ''}\n` +
-                          `*પ્રસંગની તારીખ:* ${eventDates}\n` +
-                          `*વરનું નામ:* ${groomName}\n` +
-                          `*કન્યાનું નામ:* ${brideName}\n` +
-                          `*વરરાજાના પિતાનું નામ:* ${groomFatherName}\n` +
-                          `*વરરાજાની માતાનું નામ:* ${groomMotherName}\n` +
-                          `*કન્યાના પિતાનું નામ:* ${brideFatherName}\n` +
-                          `*કન્યાની માતાનું નામ:* ${brideMotherName}\n` +
-                          `*શુભ સ્થળ:* ${venue}\n` +
-                          `*નિમંત્રકનું નામ:* ${invitorName}\n` +
-                          `*નિમંત્રકનું સરનામું:* ${invitorAddress}\n` +
-                          `*સુચના:* ${notes}\n` +
-                          `*પ્રસંગો:* \n${eventsMessage}`;
+    let ctx = canvas.getContext("2d");
+    
 
-            // Encode the message for URL
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappNumber = '919979361589';
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    ctx.fillStyle = "#ffeff1";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Open WhatsApp
-            window.open(whatsappUrl, '_blank');
-        });
+    ctx.fillStyle = "#000";
+    ctx.font="bold 30px Times new Roman";
+    ctx.fillText("Mansi Photo & Video",150,40);
+    ctx.font = "bold 20px Times new Roman";
+    ctx.fillText("પ્રસંગ: " + eventType, 220, 80);
+    ctx.font = "20px Times new Roman";
+    ctx.fillText("તારીખ: " + eventDate, 20, 120);
+    ctx.fillText("વરનું નામ: " + groomName, 20, 160);
+    ctx.fillText("કન્યાનું નામ: " + brideName, 20, 200);
+    ctx.fillText("વરરાજાના પિતાનું નામ: "+groomFatherName,20,240);
+    ctx.fillText("વરરાજાની માતાનું નામ: "+groomMotherName,20,280);
+    ctx.fillText("કન્યાના પિતાનું નામ: "+brideFatherName,20,320);
+    ctx.fillText("કન્યાની માતાનું નામ: "+brideMotherName,20,360);
+    ctx.fillText("સ્થળ: " + venue, 20, 400);
+    ctx.fillText("નિમંત્રકનું નામ: "+invitorName,20,440);
+    ctx.fillText("નિમંત્રકનું સરનામું: "+invitorAddress,20,480);
+    ctx.fillText("સુચના: " + specialNote, 20, 520);
+    ctx.fillText("પ્રસંગો:" , 20, 560);
+    
+    if (typeof startY === "undefined") {
+        let startY = 600; // Use var if it needs to be accessible globally
+    } else {
+        startY = 600; // Reset it if already declared
+    }
+    // Iterate over each dynamically added event field
+    for (let i = 0; i < eventFields.length; i++) {
+        let inputs = eventFields[i].querySelectorAll('input');
+        let eventName = inputs[0].value;
+        let eventDate = inputs[1].value;
+        let eventTime = inputs[2].value;
+
+        ctx.fillText("પ્રસંગ " + (i + 1) + ": " + eventName + " - " + eventDate + " " + eventTime, 40, startY);
+        startY += 40; // Adjust spacing between event fields
+    }
+
+    // Download the image
+    let link = document.createElement('a');
+    link.download = 'event.png';
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+    // Remove the displayed canvas if it exists
+    let existingCanvas = document.getElementById("eventCanvas");
+    if (existingCanvas) {
+        existingCanvas.remove();
+    }
+}
+
     </script>
+    
 </body>
 </html>
